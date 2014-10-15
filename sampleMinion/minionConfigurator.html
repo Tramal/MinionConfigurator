@@ -68,19 +68,25 @@ scene.add(plane);
 
 var clock = new THREE.Clock();
 
-var avatar;
 var loader = new THREE.ColladaLoader();
 loader.options.convertUpAxis = true;
 loader.load('minion.dae', function (collada) {
     collada.scene.traverse(function (child) {
         if (child instanceof THREE.SkinnedMesh) {
             var animation = new THREE.Animation(child, child.geometry.animation);
-            avatar = child;
             animation.play();
             camera.lookAt(child.position);
         }
     });
     var daeScene = collada.scene;
+    // manipulate goggles
+    //daeScene.children[13].visible = false;
+
+    var circle = daeScene.getObjectById("Circle");
+    circle.children[0].material.materials[1].transparent = true;
+    circle.children[0].material.materials[1].opacity = 0.2;
+
+        // keep
     daeScene.position.set(0, 0, 0);
     daeScene.scale.set(10, 10, 10);
     scene.add(daeScene);
@@ -152,13 +158,6 @@ gui.add(guiControls, 'showPlane').onChange(function (e) {
     } else {
         scene.remove(plane);
     }
-    render();
-});
-
-gui.add(guiControls, 'asWireframes').onChange(function (e) {
-    asWireframes = e;
-    // TODO: for all material.wireframe = asWireframes;
-    avatar.material.wireframe = asWireframes;
     render();
 });
 
