@@ -26,6 +26,8 @@
 var minion;
 var goggles;
 var jeans;
+var hands;
+var boots;
 var configuration;
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -87,6 +89,8 @@ loader.load('minion.dae', function (collada) {
     minion = collada.scene;
     goggles = minion.getObjectById("goggles");
     jeans = minion.getObjectById("jeans");
+    hands = minion.getObjectById("hands");
+    boots = minion.getObjectById("boots");
     showGoggles();
 
         // keep
@@ -148,11 +152,24 @@ jeansColorChooser.onChange(function (colorValue) {
     render();
 });
 
+var handsColorChooser = minionConfigurationFolder.addColor(configuration, 'handsColor').name("Hands color").listen();
+handsColorChooser.onChange(function (colorValue) {
+    hands.children[0].material.color = new THREE.Color(colorValue);
+    render();
+});
+
+var bootsColorChooser = minionConfigurationFolder.addColor(configuration, 'bootsColor').name("Boots color").listen();
+bootsColorChooser.onChange(function (colorValue) {
+    boots.children[0].material.color = new THREE.Color(colorValue);
+    render();
+});
 gui.open();
 
 function initMenu() {
     configuration = new function () {
         this.jeansColor = 0x0051E7;
+        this.handsColor = 0x232408;
+        this.bootsColor = 0x232408;
     };
 }
 
