@@ -25,6 +25,7 @@
 <script type="text/javascript">
 var minion;
 var goggles;
+var body;
 var jeans;
 var hands;
 var boots;
@@ -88,6 +89,7 @@ loader.load('minion.dae', function (collada) {
     });
     minion = collada.scene;
     goggles = minion.getObjectById("goggles");
+    body = minion.getObjectById("body");
     jeans = minion.getObjectById("jeans");
     hands = minion.getObjectById("hands");
     boots = minion.getObjectById("boots");
@@ -146,6 +148,12 @@ guiContainer.appendChild(gui.domElement);
 var minionConfigurationFolder = gui.addFolder('Minion configurator');
 minionConfigurationFolder.open();
 
+var bodyColorChooser = minionConfigurationFolder.addColor(configuration, 'bodyColor').name("Minion color").listen();
+bodyColorChooser.onChange(function (colorValue) {
+    body.children[0].material.materials[0].color = new THREE.Color(colorValue);
+    render();
+});
+
 var jeansColorChooser = minionConfigurationFolder.addColor(configuration, 'jeansColor').name("Jeans color").listen();
 jeansColorChooser.onChange(function (colorValue) {
     jeans.children[0].material.color = new THREE.Color(colorValue);
@@ -167,6 +175,7 @@ gui.open();
 
 function initMenu() {
     configuration = new function () {
+        this.bodyColor = 0xEBC700;
         this.jeansColor = 0x0051E7;
         this.handsColor = 0x232408;
         this.bootsColor = 0x232408;
