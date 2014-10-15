@@ -75,8 +75,6 @@ scene.add(plane);
 
 // ---- 3D CONTENT CREATION -----------------------------------------------------
 
-var clock = new THREE.Clock();
-
 var loader = new THREE.ColladaLoader();
 loader.options.convertUpAxis = true;
 loader.load('minion.dae', function (collada) {
