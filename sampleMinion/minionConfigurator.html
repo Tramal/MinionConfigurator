@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Collada File Import</title>
+    <title>Minion Configurator</title>
     <meta charset="utf-8">
     <style>
         body {
@@ -23,6 +23,10 @@
 <script type="text/javascript" src="js/ColladaLoader.js"></script>
 <script type="text/javascript" src="js/dat.gui.js"></script>
 <script type="text/javascript">
+var minion;
+var goggles;
+var jeans;
+var configuration;
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer();
@@ -31,6 +35,8 @@ renderer.setClearColor(0xeeeeee, 1.0);
 renderer.setSize(window.innerWidth, window.innerHeight);
 var webglContainer = document.getElementById('webgl-container');
 webglContainer.appendChild(renderer.domElement);
+
+initMenu();
 
 // camera controls
 var camControls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -78,22 +84,28 @@ loader.load('minion.dae', function (collada) {
             camera.lookAt(child.position);
         }
     });
-    var daeScene = collada.scene;
-    // manipulate goggles
-    //daeScene.children[13].visible = false;
-
-    var circle = daeScene.getObjectById("Circle");
-    circle.children[0].material.materials[1].transparent = true;
-    circle.children[0].material.materials[1].opacity = 0.2;
+    minion = collada.scene;
+    goggles = minion.getObjectById("goggles");
+    jeans = minion.getObjectById("jeans");
+    showGoggles();
 
         // keep
-    daeScene.position.set(0, 0, 0);
-    daeScene.scale.set(10, 10, 10);
-    scene.add(daeScene);
+    minion.position.set(0, 0, 0);
+    minion.scale.set(10, 10, 10);
+    scene.add(minion);
     camControls.panUp(10);
     camControls.update();
     render();
 });
+
+function showGoggles() {
+    goggles.children[0].material.materials[1].transparent = true;
+    goggles.children[0].material.materials[1].opacity = 0.2;
+}
+
+function hideGoggles() {
+    goggles.visible = false;
+}
 
 // ---- END OF 3D CONTENT CREATION ---------------------------------------------
 
@@ -117,137 +129,40 @@ var headLight = new THREE.PointLight(0x888888, 1.0);
 headLight.position.set(camera.position.x, camera.position.y, camera.position.z);
 scene.add(headLight);
 
-// add GUI control elements
-var guiControls = new function () {
-    this.showAxes = true;
-    this.showGrid = false;
-    this.showPlane = true;
-    this.asWireframes = false;
-    this.animated = true;
-    this.withShadow = false;
-    this.withFog = false;
-}
-
 var gui = new dat.GUI({
     autoPlace: false
 });
 var guiContainer = document.getElementById('gui-container');
+gui.domElement.style.position = 'absolute';
+gui.domElement.style.top = '150px';
+gui.domElement.style.left = '5px';
+gui.domElement.style.height = '400px';
 guiContainer.appendChild(gui.domElement);
-gui.add(guiControls, 'showAxes').onChange(function (e) {
-    showAxes = e;
-    if (showAxes) {
-        scene.add(axes);
-    } else {
-        scene.remove(axes);
-    }
-    render();
-});
-gui.add(guiControls, 'showGrid').onChange(function (e) {
-    showGrid = e;
-    if (showGrid) {
-        scene.add(grid);
-    } else {
-        scene.remove(grid);
-    }
-    render();
-});
-gui.add(guiControls, 'showPlane').onChange(function (e) {
-    showPlane = e;
-    if (showPlane) {
-        scene.add(plane);
-    } else {
-        scene.remove(plane);
-    }
+
+var minionConfigurationFolder = gui.addFolder('Minion configurator');
+minionConfigurationFolder.open();
+
+var jeansColorChooser = minionConfigurationFolder.addColor(configuration, 'jeansColor').name("Jeans color").listen();
+jeansColorChooser.onChange(function (colorValue) {
+    jeans.children[0].material.color = new THREE.Color(colorValue);
     render();
 });
 
 gui.open();
+
+function initMenu() {
+    configuration = new function () {
+        this.jeansColor = 0x0051E7;
+    };
+}
 
 // init and call render function
 function render() {
     headLight.position.set(camera.position.x, camera.position.y, camera.position.z);
     renderer.render(scene, camera);
 }
-initAnim(true);
-initShadow(false);
-initFog(false);
 render();
-setShadow(false);
-setFog(false);
-animate();
 
-// animate the 3D objects
-function initAnim(value) {
-    if (value) {
-        gui.add(guiControls, 'animated').onChange(function (e) {
-            animated = e;
-            if (animated) animate();
-        });
-    }
-}
-
-var step = 0;
-var scalingStep = 0;
-
-function animate() {
-    if (guiControls.animated) {
-        // DO ANIMATING 3D ELEMENTS
-        THREE.AnimationHandler.update(clock.getDelta());
-        // request re-rendering
-        requestAnimationFrame(animate);
-    }
-    render();
-}
-
-// shadow cast on plane
-function initShadow(value) {
-    // SET receiveShadow AND castShadow FLAGS OF 3D ELEMENTS WITH SHADOW
-    plane.receiveShadow = value;
-    spotLight.castShadow = value;
-    renderer.shadowMapEnabled = value;
-    if (value) {
-        gui.add(guiControls, 'withShadow').onChange(function (e) {
-            withShadow = e;
-            setShadow(withShadow);
-        });
-    }
-}
-
-function setShadow(value) {
-    if (value) {
-        renderer.shadowMapAutoUpdate = true;
-    } else {
-        renderer.shadowMapAutoUpdate = false;
-        renderer.clearTarget(spotLight.shadowMap);
-    }
-    render();
-}
-
-// fog
-var fog;
-
-function initFog(value) {
-    if (value) {
-        fog = new THREE.Fog(0xeeeeee, 0.0000001, 150);
-        scene.fog = fog;
-        gui.add(guiControls, 'withFog').onChange(function (e) {
-            withFog = e;
-            setFog(withFog);
-        });
-    }
-}
-
-function setFog(value) {
-    if (!fog) return;
-    if (value) {
-        fog.near = 0.000000001;
-        fog.far = 150;
-    } else {
-        fog.near = 8000;
-        fog.far = 8000;
-    }
-    render();
-}
 </script>
 </body>
 
