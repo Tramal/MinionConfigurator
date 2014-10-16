@@ -8,16 +8,38 @@
                 margin: 0;
                 overflow: hidden;
             }
-            #webgl-container {
+            .logo {
+                width: 245px;
+                float: left;
+            }
+            .logo img {
+                width: 100%
+            }
+            .webgl {
                 float: right;
+            }
+            .gui {
+                position:absolute;
+                z-index:1;
+                top:150px;
+                left:0;
+            }
+            .spinner {
+                text-align: center;
             }
         </style>
     </head>
     <body>
-        <h1>Konfigurieren Sie Ihren eigenen Minion!</h1>
-        <div id="webgl-container">
+        <div class="logo">
+            <img src="img/Despicable-me-minions.jpg" />
         </div>
-        <div id="gui-container" style="position:absolute;z-index:1;top:0;left:0;">
+        <h1>Configure your one minion!</h1>
+        <div id="webgl-container" class="webgl">
+        </div>
+        <div id="gui-container" class="gui">
+        </div>
+        <div id="loading" class="spinner">
+            <img src="img/loading.gif" />
         </div>
         <script type="text/javascript" src="js/libs/three.js"></script>
         <script type="text/javascript" src="js/libs/OrbitControls.js"></script>

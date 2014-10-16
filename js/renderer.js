@@ -11,9 +11,8 @@ initRenderer();
 initMenu();
 initCamera();
 window.addEventListener('resize', onWindowResize, false);
-loadMinion();
 addLights();
-render();
+loadMinion();
 
 function initRenderer() {
     renderer.setClearColor("#0066FF", 1);
@@ -44,8 +43,8 @@ function initMenu() {
     gui.domElement.style.height = '400px';
     guiContainer.appendChild(gui.domElement);
 
-    var colorsFolder = gui.addFolder('Farben');
-    var eyesFolder = gui.addFolder('Augen');
+    var colorsFolder = gui.addFolder('Colors');
+    var eyesFolder = gui.addFolder('Eyes');
     colorsFolder.open();
 
     var bodyColorChooser = colorsFolder.addColor(configuration, 'bodyColor').name("Minion").listen();
@@ -60,32 +59,32 @@ function initMenu() {
         render();
     });
 
-    var handsColorChooser = colorsFolder.addColor(configuration, 'handsColor').name("Handschuhe").listen();
+    var handsColorChooser = colorsFolder.addColor(configuration, 'handsColor').name("Gloves").listen();
     handsColorChooser.onChange(function (colorValue) {
         minion.hands.children[0].material.color = new THREE.Color(colorValue);
         render();
     });
 
-    var bootsColorChooser = colorsFolder.addColor(configuration, 'bootsColor').name("Schuhe").listen();
+    var bootsColorChooser = colorsFolder.addColor(configuration, 'bootsColor').name("Shoes").listen();
     bootsColorChooser.onChange(function (colorValue) {
         minion.boots.children[0].material.color = new THREE.Color(colorValue);
         render();
     });
 
-    var gogglescolorChooser = colorsFolder.addColor(configuration, 'gogglesColor').name("Brillengläser").listen();
+    var gogglescolorChooser = colorsFolder.addColor(configuration, 'gogglesColor').name("Lenses").listen();
     gogglescolorChooser.onChange(function (colorValue) {
         minion.goggles.children[0].material.materials[1].color = new THREE.Color(colorValue);
         render();
     });
 
-    var visibleGogglesCheckbox = eyesFolder.add(configuration, 'showGoggles').name("Brille anzeigen").listen();
+    var visibleGogglesCheckbox = eyesFolder.add(configuration, 'showGoggles').name("Show goggles").listen();
     visibleGogglesCheckbox.onChange(function (checked) {
         minion.goggles.visible = checked;
         minion.goggle.visible = checked;
         render();
     });
 
-    var eyeText = eyesFolder.add(configuration, 'eye', ['1', '2']).name("Anzahl Augen").listen();
+    var eyeText = eyesFolder.add(configuration, 'eye', ['1', '2']).name("Number of eyes").listen();
     eyeText.onChange(function (value) {
         if (value == 1) {
             minion.oneEye.visible = true;
@@ -151,6 +150,7 @@ function loadMinion() {
 
         scene.add(minion);
         createPlane();
+        document.getElementById('loading').style.display = "none";
         animate();
     });
 }
