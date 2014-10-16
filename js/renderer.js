@@ -28,6 +28,7 @@ function initMenu() {
         this.jeansColor = 0x0051E7;
         this.handsColor = 0x232408;
         this.bootsColor = 0x232408;
+        this.gogglesColor = 0xE7E7E7;
         this.showGoggles = true;
         this.eye = "1";
     };
@@ -47,31 +48,35 @@ function initMenu() {
     var eyesFolder = gui.addFolder('Augen');
     colorsFolder.open();
 
-    var bodyColorChooser = colorsFolder.addColor(configuration, 'bodyColor').name("Minion color").listen();
+    var bodyColorChooser = colorsFolder.addColor(configuration, 'bodyColor').name("Minion").listen();
     bodyColorChooser.onChange(function (colorValue) {
         minion.body.children[0].material.materials[0].color = new THREE.Color(colorValue);
         render();
     });
 
-    var jeansColorChooser = colorsFolder.addColor(configuration, 'jeansColor').name("Jeans color").listen();
+    var jeansColorChooser = colorsFolder.addColor(configuration, 'jeansColor').name("Jeans").listen();
     jeansColorChooser.onChange(function (colorValue) {
         minion.jeans.children[0].material.color = new THREE.Color(colorValue);
         render();
     });
 
-    var handsColorChooser = colorsFolder.addColor(configuration, 'handsColor').name("Hands color").listen();
+    var handsColorChooser = colorsFolder.addColor(configuration, 'handsColor').name("Handschuhe").listen();
     handsColorChooser.onChange(function (colorValue) {
         minion.hands.children[0].material.color = new THREE.Color(colorValue);
         render();
     });
 
-    var bootsColorChooser = colorsFolder.addColor(configuration, 'bootsColor').name("Boots color").listen();
+    var bootsColorChooser = colorsFolder.addColor(configuration, 'bootsColor').name("Schuhe").listen();
     bootsColorChooser.onChange(function (colorValue) {
         minion.boots.children[0].material.color = new THREE.Color(colorValue);
         render();
     });
 
-    eyesFolder.open();
+    var gogglescolorChooser = colorsFolder.addColor(configuration, 'gogglesColor').name("Brillengläser").listen();
+    gogglescolorChooser.onChange(function (colorValue) {
+        minion.goggles.children[0].material.materials[1].color = new THREE.Color(colorValue);
+        render();
+    });
 
     var visibleGogglesCheckbox = eyesFolder.add(configuration, 'showGoggles').name("Brille anzeigen").listen();
     visibleGogglesCheckbox.onChange(function (checked) {
@@ -130,12 +135,12 @@ function loadMinion() {
         minion.hands = minion.getObjectById("hands");
         minion.boots = minion.getObjectById("boots");
         minion.goggles = minion.twoEye.getObjectById("goggles");
-        minion.goggle = minion.oneEye.getObjectById("goggle");
+        minion.goggle = minion.twoEye.getObjectById("goggle");
 
         minion.body.children[0].material.materials[0].shininess = 10;
         minion.jeans.children[0].material.shininess = 10;
         minion.goggles.children[0].material.materials[1].transparent = true;
-        minion.goggles.children[0].material.materials[1].opacity = 0.2;
+        minion.goggles.children[0].material.materials[1].opacity = 0.5;
 
         minion.oneEye.visible = true;
         minion.twoEye.visible = false;
