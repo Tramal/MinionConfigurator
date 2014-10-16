@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Minion Configurator</title>
+        <meta charset="utf-8">
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+            }
+            #webgl-container {
+                float: right;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Konfigurieren Sie Ihren eigenen Minion!</h1>
+        <div id="webgl-container">
+        </div>
+        <div id="gui-container" style="position:absolute;z-index:1;top:0;left:0;">
+        </div>
+        <script type="text/javascript" src="js/libs/three.js"></script>
+        <script type="text/javascript" src="js/libs/OrbitControls.js"></script>
+        <script type="text/javascript" src="js/libs/ColladaLoader.js"></script>
+        <script type="text/javascript" src="js/libs/dat.gui.js"></script>
+        <script type="text/javascript" src="js/renderer.js"></script>
+    </body>
+</html>
