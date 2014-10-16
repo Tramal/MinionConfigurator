@@ -134,7 +134,7 @@ function loadMinion() {
         minion.hands = minion.getObjectById("hands");
         minion.boots = minion.getObjectById("boots");
         minion.goggles = minion.twoEye.getObjectById("goggles");
-        minion.goggle = minion.twoEye.getObjectById("goggle");
+        minion.goggle = minion.oneEye.getObjectById("goggle");
 
         minion.body.children[0].material.materials[0].shininess = 10;
         minion.jeans.children[0].material.shininess = 10;
