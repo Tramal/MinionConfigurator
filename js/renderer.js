@@ -157,7 +157,7 @@ function loadMinion() {
 
 function addLights() {
     var spotLight = new THREE.SpotLight( 0xffffff );
-    spotLight.position.set( 10, 10, 10 );
+    spotLight.position.set( 100, 100, 100 );
 
     spotLight.shadowMapWidth = 1024;
     spotLight.shadowMapHeight = 1024;
