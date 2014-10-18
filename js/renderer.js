@@ -157,16 +157,12 @@ function loadMinion() {
 
 function addLights() {
     var spotLight = new THREE.SpotLight( 0xffffff );
-    spotLight.position.set( 100, 100, 100 );
-
-    spotLight.shadowMapWidth = 1024;
-    spotLight.shadowMapHeight = 1024;
-
-    spotLight.shadowCameraNear = 500;
-    spotLight.shadowCameraFar = 4000;
-    spotLight.shadowCameraFov = 300;
+    spotLight.position.set( 10, 10, 10 );
 
     scene.add( spotLight );
+
+    headLight.position.set(camera.position.x, camera.position.y, camera.position.z);
+    scene.add(headLight);
 }
 
 function animate() {
