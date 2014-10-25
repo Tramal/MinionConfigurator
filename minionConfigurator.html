@@ -21,11 +21,35 @@
             .gui {
                 position:absolute;
                 z-index:1;
-                top:150px;
-                left:0;
+                top:270px;
+                left:30px;
             }
             .spinner {
                 text-align: center;
+            }
+            fieldset {
+                border:1px solid green;
+                margin-bottom: 1em;
+            }
+            legend {
+                padding: 0.2em 0.5em;
+                border:1px solid green;
+                color:green;
+                font-size:90%;
+                text-align:right;
+            }
+            label {
+                float:left;
+                margin-right:0.5em;
+                text-align:right;
+                font-weight:bold;
+            }
+            select {
+                float: right;
+                border:1px solid green;
+            }
+            input {
+                border:1px solid green;
             }
         </style>
     </head>
@@ -45,6 +69,7 @@
                     <option value="#9271D7" data-price="20">purple (20$)</option>
                 </select>
                 <br>
+                <br>
                 <label for="jeans-color">Jeans</label>
                 <select name="jeans-color" id="jeans-color">
                     <option value="#0051e7" data-price="10">blue (10$)</option>
@@ -52,17 +77,20 @@
                     <option value="#000000" data-price="10">black (10$)</option>
                 </select>
                 <br>
+                <br>
                 <label for="gloves-color">Gloves</label>
                 <select name="gloves-color" id="gloves-color">
                     <option value="#000000" data-price="5">black (5$)</option>
                     <option value="#ffffff" data-price="5">white (5$)</option>
                 </select>
                 <br>
+                <br>
                 <label for="shoes-color">Shoes</label>
                 <select name="shoes-color" id="shoes-color">
                     <option value="#000000" data-price="5">black (5$)</option>
                     <option value="#ffffff" data-price="5">white (5$)</option>
                 </select>
+                <br>
                 <br>
                 <label for="lenses-color">Lenses</label>
                 <select name="lenses-color" id="lenses-color">
@@ -77,6 +105,7 @@
                 <legend>Eyes</legend>
                 <label for="show-goggles">Show Goggles (20$)</label>
                 <input type="checkbox" name="show-goggles" id="show-goggles" value="yes" data-price="20" checked/>
+                <br>
                 <br>
                 <label for="eyes-number">Number of Eyes</label>
                 <select name="eyes-number" id="eyes-number">
