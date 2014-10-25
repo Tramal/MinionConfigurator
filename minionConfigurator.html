@@ -51,6 +51,9 @@
             input {
                 border:1px solid green;
             }
+            .summary {
+                font-weight: bold;
+            }
         </style>
     </head>
     <body>
@@ -113,6 +116,12 @@
                     <option value="2" data-price="20">2 (20$)</option>
                 </select>
             </fieldset>
+            <div class="summary">
+                Price:
+                <span id="price"> </span>
+            </div>
+            <br>
+            <button onclick="alert('NOPE!');">BUY!</button>
         </div>
         <div id="loading" class="spinner">
             <img src="img/loading.gif" />

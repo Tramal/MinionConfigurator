@@ -22,24 +22,41 @@ function initRenderer() {
 
 function initMenu() {
     var minionColor = document.getElementById("minion-color");
-    minionColor.addEventListener("change", function(){ changeColor(minionColor[minionColor.selectedIndex].value,  minion.body.children[0].material.materials[0])});
+    minionColor.addEventListener("change", function(){
+        changeColor(minionColor[minionColor.selectedIndex].value,  minion.body.children[0].material.materials[0]);
+        calculatePrice();
+    });
 
     var jeansColor = document.getElementById("jeans-color");
-    jeansColor.addEventListener("change", function(){ changeColor(jeansColor[jeansColor.selectedIndex].value,  minion.jeans.children[0].material)});
+    jeansColor.addEventListener("change", function(){
+        changeColor(jeansColor[jeansColor.selectedIndex].value,  minion.jeans.children[0].material);
+        calculatePrice();
+    });
 
     var glovesColor = document.getElementById("gloves-color");
-    glovesColor.addEventListener("change", function(){ changeColor(glovesColor[glovesColor.selectedIndex].value,  minion.hands.children[0].material)});
+    glovesColor.addEventListener("change", function(){
+        changeColor(glovesColor[glovesColor.selectedIndex].value,  minion.hands.children[0].material);
+        calculatePrice();
+    });
 
     var shoesColor = document.getElementById("shoes-color");
-    shoesColor.addEventListener("change", function(){ changeColor(shoesColor[shoesColor.selectedIndex].value,  minion.boots.children[0].material)});
+    shoesColor.addEventListener("change", function(){
+        changeColor(shoesColor[shoesColor.selectedIndex].value,  minion.boots.children[0].material);
+        calculatePrice();
+    });
 
     var lensesColor = document.getElementById("lenses-color");
-    lensesColor.addEventListener("change", function(){ changeColor(lensesColor[lensesColor.selectedIndex].value,  minion.goggles.children[0].material.materials[1])});
+    lensesColor.addEventListener("change", function(){
+        changeColor(lensesColor[lensesColor.selectedIndex].value,  minion.goggles.children[0].material.materials[1]);
+        calculatePrice();
+    });
 
     var showGoggles = document.getElementById("show-goggles");
-    showGoggles.addEventListener("change", function(){
+    showGoggles.addEventListener("change",
+        function(){
         minion.goggles.visible = showGoggles.checked;
         minion.goggle.visible = showGoggles.checked;
+            calculatePrice();
     });
 
     var eyesNumber = document.getElementById("eyes-number");
@@ -52,7 +69,10 @@ function initMenu() {
             minion.oneEye.visible = false;
             minion.twoEye.visible = true;
         }
+        calculatePrice();
     });
+
+    calculatePrice();
 }
 
 function initCamera() {
@@ -141,4 +161,18 @@ function onWindowResize() {
 function changeColor(color, material) {
     material.color = new THREE.Color(color);
     render();
+}
+
+function calculatePrice() {
+    var price = parseInt(0);
+    price += parseInt(document.getElementById("minion-color")[document.getElementById("minion-color").selectedIndex].getAttribute("data-price"));
+    price += parseInt(document.getElementById("jeans-color")[document.getElementById("jeans-color").selectedIndex].getAttribute("data-price"));
+    price += parseInt(document.getElementById("gloves-color")[document.getElementById("gloves-color").selectedIndex].getAttribute("data-price"));
+    price += parseInt(document.getElementById("shoes-color")[document.getElementById("shoes-color").selectedIndex].getAttribute("data-price"));
+    price += parseInt(document.getElementById("lenses-color")[document.getElementById("lenses-color").selectedIndex].getAttribute("data-price"));
+    if (document.getElementById("show-goggles").checked) {
+        price += parseInt(document.getElementById("show-goggles").getAttribute("data-price"));
+    }
+    price += parseInt(document.getElementById("eyes-number")[document.getElementById("eyes-number").selectedIndex].getAttribute("data-price"));
+    document.getElementById("price").innerHTML = price;
 }
