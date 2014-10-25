@@ -37,6 +37,53 @@
         <div id="webgl-container" class="webgl">
         </div>
         <div id="gui-container" class="gui">
+            <fieldset>
+                <legend>Colors</legend>
+                <label for="minion-color">Minion</label>
+                <select name="minion-color" id="minion-color">
+                    <option value="#ebc700" data-price="20">yellow (20$)</option>
+                    <option value="#9271D7" data-price="20">purple (20$)</option>
+                </select>
+                <br>
+                <label for="jeans-color">Jeans</label>
+                <select name="jeans-color" id="jeans-color">
+                    <option value="#0051e7" data-price="10">blue (10$)</option>
+                    <option value="#ffffff" data-price="10">white (10$)</option>
+                    <option value="#000000" data-price="10">black (10$)</option>
+                </select>
+                <br>
+                <label for="gloves-color">Gloves</label>
+                <select name="gloves-color" id="gloves-color">
+                    <option value="#000000" data-price="5">black (5$)</option>
+                    <option value="#ffffff" data-price="5">white (5$)</option>
+                </select>
+                <br>
+                <label for="shoes-color">Shoes</label>
+                <select name="shoes-color" id="shoes-color">
+                    <option value="#000000" data-price="5">black (5$)</option>
+                    <option value="#ffffff" data-price="5">white (5$)</option>
+                </select>
+                <br>
+                <label for="lenses-color">Lenses</label>
+                <select name="lenses-color" id="lenses-color">
+                    <option value="#e7e7e7" data-price="20">white (20$)</option>
+                    <option value="#000000" data-price="20">black (20$)</option>
+                    <option value="#ff0000" data-price="20">red (20$)</option>
+                    <option value="#00ff00" data-price="20">green (20$)</option>
+                    <option value="#0000ff" data-price="20">blue (20$)</option>
+                </select>
+            </fieldset>
+            <fieldset>
+                <legend>Eyes</legend>
+                <label for="show-goggles">Show Goggles (20$)</label>
+                <input type="checkbox" name="show-goggles" id="show-goggles" value="yes" data-price="20" checked/>
+                <br>
+                <label for="eyes-number">Number of Eyes</label>
+                <select name="eyes-number" id="eyes-number">
+                    <option value="1" data-price="10">1 (10$)</option>
+                    <option value="2" data-price="20">2 (20$)</option>
+                </select>
+            </fieldset>
         </div>
         <div id="loading" class="spinner">
             <img src="img/loading.gif" />

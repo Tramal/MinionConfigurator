@@ -1,5 +1,4 @@
 var minion;
-var configuration;
 var plane;
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -22,71 +21,30 @@ function initRenderer() {
 }
 
 function initMenu() {
-    configuration = new function () {
-        this.bodyColor = 0xEBC700;
-        this.jeansColor = 0x0051E7;
-        this.handsColor = 0x232408;
-        this.bootsColor = 0x232408;
-        this.gogglesColor = 0xE7E7E7;
-        this.showGoggles = true;
-        this.eye = "1";
-    };
+    var minionColor = document.getElementById("minion-color");
+    minionColor.addEventListener("change", function(){ changeColor(minionColor[minionColor.selectedIndex].value,  minion.body.children[0].material.materials[0])});
 
-    var gui = new dat.GUI({
-        autoPlace: false
+    var jeansColor = document.getElementById("jeans-color");
+    jeansColor.addEventListener("change", function(){ changeColor(jeansColor[jeansColor.selectedIndex].value,  minion.jeans.children[0].material)});
+
+    var glovesColor = document.getElementById("gloves-color");
+    glovesColor.addEventListener("change", function(){ changeColor(glovesColor[glovesColor.selectedIndex].value,  minion.hands.children[0].material)});
+
+    var shoesColor = document.getElementById("shoes-color");
+    shoesColor.addEventListener("change", function(){ changeColor(shoesColor[shoesColor.selectedIndex].value,  minion.boots.children[0].material)});
+
+    var lensesColor = document.getElementById("lenses-color");
+    lensesColor.addEventListener("change", function(){ changeColor(lensesColor[lensesColor.selectedIndex].value,  minion.goggles.children[0].material.materials[1])});
+
+    var showGoggles = document.getElementById("show-goggles");
+    showGoggles.addEventListener("change", function(){
+        minion.goggles.visible = showGoggles.checked;
+        minion.goggle.visible = showGoggles.checked;
     });
 
-    var guiContainer = document.getElementById('gui-container');
-    gui.domElement.style.position = 'absolute';
-    gui.domElement.style.top = '150px';
-    gui.domElement.style.left = '5px';
-    gui.domElement.style.height = '400px';
-    guiContainer.appendChild(gui.domElement);
-
-    var colorsFolder = gui.addFolder('Colors');
-    var eyesFolder = gui.addFolder('Eyes');
-    colorsFolder.open();
-
-    var bodyColorChooser = colorsFolder.addColor(configuration, 'bodyColor').name("Minion").listen();
-    bodyColorChooser.onChange(function (colorValue) {
-        minion.body.children[0].material.materials[0].color = new THREE.Color(colorValue);
-        render();
-    });
-
-    var jeansColorChooser = colorsFolder.addColor(configuration, 'jeansColor').name("Jeans").listen();
-    jeansColorChooser.onChange(function (colorValue) {
-        minion.jeans.children[0].material.color = new THREE.Color(colorValue);
-        render();
-    });
-
-    var handsColorChooser = colorsFolder.addColor(configuration, 'handsColor').name("Gloves").listen();
-    handsColorChooser.onChange(function (colorValue) {
-        minion.hands.children[0].material.color = new THREE.Color(colorValue);
-        render();
-    });
-
-    var bootsColorChooser = colorsFolder.addColor(configuration, 'bootsColor').name("Shoes").listen();
-    bootsColorChooser.onChange(function (colorValue) {
-        minion.boots.children[0].material.color = new THREE.Color(colorValue);
-        render();
-    });
-
-    var gogglescolorChooser = colorsFolder.addColor(configuration, 'gogglesColor').name("Lenses").listen();
-    gogglescolorChooser.onChange(function (colorValue) {
-        minion.goggles.children[0].material.materials[1].color = new THREE.Color(colorValue);
-        render();
-    });
-
-    var visibleGogglesCheckbox = eyesFolder.add(configuration, 'showGoggles').name("Show goggles").listen();
-    visibleGogglesCheckbox.onChange(function (checked) {
-        minion.goggles.visible = checked;
-        minion.goggle.visible = checked;
-        render();
-    });
-
-    var eyeText = eyesFolder.add(configuration, 'eye', ['1', '2']).name("Number of eyes").listen();
-    eyeText.onChange(function (value) {
-        if (value == 1) {
+    var eyesNumber = document.getElementById("eyes-number");
+    eyesNumber.addEventListener("change", function(){
+        if (eyesNumber[eyesNumber.selectedIndex].value == 1) {
             minion.oneEye.visible = true;
             minion.twoEye.visible = false;
         }
@@ -94,10 +52,7 @@ function initMenu() {
             minion.oneEye.visible = false;
             minion.twoEye.visible = true;
         }
-        render();
     });
-
-    gui.open();
 }
 
 function initCamera() {
@@ -180,5 +135,10 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
+    render();
+}
+
+function changeColor(color, material) {
+    material.color = new THREE.Color(color);
     render();
 }
